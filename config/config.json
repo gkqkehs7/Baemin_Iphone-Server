@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "root",
+    "password": "An1621724@",
+    "database": "baemin_back",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  "test": {
+    "username": "root",
+    "password": "An1621724@",
+    "database": "baemin_back",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  "production": {
+    "username": "root",
+    "password": "An1621724@",
+    "database": "baemin_back",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  }
+}
