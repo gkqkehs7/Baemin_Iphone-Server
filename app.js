@@ -2,6 +2,8 @@ const express = require("express");
 const app = express();
 const port = 3000;
 const bodyParser = require("body-parser");
+const passport = require("passport");
+const passportConfig = require("./passport/local");
 
 const userRouter = require("./router/user");
 const menuRouter = require("./router/menu");
@@ -18,7 +20,8 @@ db.sequelize
     console.log("db연결 성공");
   })
   .catch(console.error);
-
+app.use(passport.initialize());
+passportConfig();
 app.use("/api/user", userRouter);
 app.use("/api/menu", menuRouter);
 app.use("/api/review", reviewRouter);

@@ -26,6 +26,10 @@ module.exports = class Store extends Model {
           type: DataTypes.STRING(30),
           allowNull: false,
         },
+        category: {
+          type: DataTypes.INTEGER,
+          allowNull: false,
+        },
       },
       {
         modelName: "Store",

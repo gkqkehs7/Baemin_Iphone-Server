@@ -10,6 +10,15 @@ module.exports = class User extends Model {
           allowNull: false,
           unique: true,
         },
+        password: {
+          type: DataTypes.STRING(200),
+          allowNull: false,
+        },
+        email: {
+          type: DataTypes.STRING(30),
+          allowNull: false,
+          unique: true,
+        },
       },
       {
         modelName: "User",

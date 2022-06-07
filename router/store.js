@@ -7,6 +7,7 @@ const Review = require("../models/review");
 const Store = require("../models/store");
 
 var router = express.Router();
+const { verifyToken } = require("./middleware");
 
 router.get("/getCategory/:categoryId", async (req, res, next) => {
   try {
@@ -25,7 +26,7 @@ router.get("/getCategory/:categoryId", async (req, res, next) => {
   }
 });
 
-router.get("/getStore/:storeId", async (req, res, next) => {
+router.get("/getStore/:storeId", verifyToken, async (req, res, next) => {
   try {
     const exStore = await Store.findOne({
       where: { id: parseInt(req.params.storeId, 10) },
