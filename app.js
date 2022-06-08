@@ -9,6 +9,7 @@ const userRouter = require("./router/user");
 const menuRouter = require("./router/menu");
 const reviewRouter = require("./router/review");
 const storeRouter = require("./router/store");
+const historyRouter = require("./router/history");
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -26,6 +27,7 @@ app.use("/api/user", userRouter);
 app.use("/api/menu", menuRouter);
 app.use("/api/review", reviewRouter);
 app.use("/api/store", storeRouter);
+app.use("/api/history", historyRouter);
 
 app.get("/", (req, res) => {
   console.log("connected");

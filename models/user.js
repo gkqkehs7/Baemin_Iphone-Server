@@ -33,7 +33,6 @@ module.exports = class User extends Model {
   static associate(db) {
     db.User.belongsToMany(db.Store, { through: "Follow", as: "followings" });
 
-    db.User.belongsToMany(db.Menu, { through: "history", as: "orderHistory" });
     db.User.hasMany(db.Review);
   }
 };

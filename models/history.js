@@ -1,41 +1,32 @@
 const DataTypes = require("sequelize");
 const { Model } = DataTypes;
 
-module.exports = class Menu extends Model {
+module.exports = class History extends Model {
   static init(sequelize) {
     return super.init(
       {
-        menuName: {
-          type: DataTypes.STRING(30),
+        userId: {
+          type: DataTypes.INTEGER,
           allowNull: false,
           unique: true,
         },
-        price: {
+        storeId: {
           type: DataTypes.INTEGER,
           allowNull: false,
         },
-        menuImg: {
-          type: DataTypes.STRING(200), //글자무제한
-        },
-        explanation: {
-          type: DataTypes.TEXT,
-          allowNull: false,
-        },
-        orderNum: {
+        menuId: {
           type: DataTypes.INTEGER,
           allowNull: false,
         },
       },
       {
-        modelName: "Menu",
-        tableName: "Menues",
+        modelName: "History",
+        tableName: "Historys",
         paranoid: true,
         charset: "utf8",
         sequelize,
       }
     );
   }
-  static associate(db) {
-    db.Menu.belongsTo(db.Store);
-  }
+  static associate(db) {}
 };

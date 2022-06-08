@@ -2,6 +2,28 @@
 
 module.exports = {
   async up(queryInterface, Sequelize) {
+    await queryInterface.bulkInsert("Users", [
+      {
+        id: 1,
+        email: "gkqkehs10@naver.com",
+        password: "1234",
+        nickname: "minu",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+    ]);
+
+    await queryInterface.bulkInsert("Users", [
+      {
+        id: 2,
+        email: "gkqkehs11@naver.com",
+        password: "1234",
+        nickname: "minu2",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+    ]);
+
     await queryInterface.bulkInsert("Stores", [
       {
         id: 1,
@@ -82,11 +104,13 @@ module.exports = {
       },
     ]);
 
-    await queryInterface.bulkInsert("history", [
+    await queryInterface.bulkInsert("Historys", [
       {
-        id: 1,
-        UserId: 1,
-        MenuId: 1,
+        userId: 1,
+        storeId: 1,
+        menuId: 1,
+        createdAt: new Date(),
+        updatedAt: new Date(),
       },
     ]);
   },
@@ -96,6 +120,6 @@ module.exports = {
     await queryInterface.bulkDelete("Stores");
     await queryInterface.bulkDelete("Menues");
     await queryInterface.bulkDelete("Reviews");
-    await queryInterface.bulkDelete("history");
+    await queryInterface.bulkDelete("Historys");
   },
 };

@@ -3,6 +3,7 @@ const user = require("./user");
 const menu = require("./menu");
 const store = require("./store");
 const review = require("./review");
+const history = require("./history");
 
 const env = process.env.NODE_ENV || "development";
 const config = require("../config/config.json")[env];
@@ -12,6 +13,7 @@ db.User = user;
 db.Store = store;
 db.Menu = menu;
 db.Review = review;
+db.History = history;
 
 const sequelize = new Sequelize(
   config.database,

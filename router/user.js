@@ -139,4 +139,28 @@ router.post("/signUp", async (req, res, next) => {
   }
 });
 
+router.post("/followStore", verifyToken, async (req, res, next) => {
+  const exStore = await Store.findOne({
+    where: { id: req.body.storeId },
+  });
+
+  if (!exStore) {
+    return res.status(401).json({ message: "존재하지 않는 가게입니다" });
+  }
+  await exStore.addFollowers(req.user.id);
+  res.status(200).send({ success: true });
+});
+
+router.post("/unfollowStore", verifyToken, async (req, res, next) => {
+  const exStore = await Store.findOne({
+    where: { id: req.body.storeId },
+  });
+
+  if (!exStore) {
+    return res.status(401).json({ message: "존재하지 않는 가게입니다" });
+  }
+  await exStore.removeFollowers(req.user.id);
+  res.status(200).send({ success: true });
+});
+
 module.exports = router;
