@@ -103,16 +103,6 @@ module.exports = {
         updatedAt: new Date(),
       },
     ]);
-
-    await queryInterface.bulkInsert("Historys", [
-      {
-        userId: 1,
-        storeId: 1,
-        menuId: 1,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-    ]);
   },
 
   async down(queryInterface, Sequelize) {

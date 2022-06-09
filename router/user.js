@@ -6,6 +6,7 @@ const User = require("../models/user");
 const Menu = require("../models/menu");
 const Review = require("../models/review");
 const Store = require("../models/store");
+const History = require("../models/history");
 const jwt = require("jsonwebtoken");
 
 var router = express.Router();
@@ -48,7 +49,7 @@ router.post("/login", async (req, res, next) => {
         { sub: "access", email: user.email },
         "jwt-secret-key",
         {
-          expiresIn: "20s",
+          expiresIn: "5m",
         }
       );
       return res.status(200).send({
@@ -91,7 +92,7 @@ router.post("/refreshToken", async (req, res, next) => {
         { sub: "access", email: user.email },
         "jwt-secret-key",
         {
-          expiresIn: "20s",
+          expiresIn: "5m",
         }
       );
       return res.status(200).send({
@@ -118,7 +119,7 @@ router.post("/signUp", async (req, res, next) => {
       return res.status(401).json({ message: "이미 가입한 회원입니다" });
 
     const exNickname = await User.findOne({
-      where: { nickname: req.body.nickname },
+      where: { nickname: req.body.name },
     });
 
     if (exNickname)
@@ -129,7 +130,7 @@ router.post("/signUp", async (req, res, next) => {
     await User.create({
       email: req.body.email,
       password: hashedPassword,
-      nickname: req.body.nickname,
+      nickname: req.body.name,
     });
 
     return res.status(200).send("회원가입 성공");
@@ -163,4 +164,86 @@ router.post("/unfollowStore", verifyToken, async (req, res, next) => {
   res.status(200).send({ success: true });
 });
 
+router.post("/pay", verifyToken, async (req, res, next) => {
+  console.log(req.body);
+  const exStore = await Store.findOne({
+    where: { id: req.body.storeId },
+  });
+
+  if (!exStore) {
+    return res.status(401).json({ message: "존재하지 않는 가게입니다" });
+  }
+
+  await History.create({
+    userId: req.user.id,
+    storeId: req.body.storeId,
+    totalPrice: req.body.totalPrice,
+    menuIds: req.body.menuIds,
+  });
+
+  return res.status(200).send({ success: true });
+});
+
+router.post("/getHistories", verifyToken, async (req, res, next) => {
+  const exHistories = await History.findAll({ userId: req.user.id });
+
+  async function getHistories() {
+    try {
+      let datas = [];
+      for (const exHistory of exHistories) {
+        storeData = await Store.findOne({ id: exHistory.storeId });
+        repMenu = await Menu.findOne({ id: exHistory.menuIds.split(",")[0] });
+        menuIds = exHistory.menuIds;
+        datas.push({
+          storeName: storeData.storeName,
+          repMenuName: repMenu.menuName,
+          menuIds: menuIds,
+          time: exHistory.createdAt,
+        });
+      }
+      return datas;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  getHistories().then((response) => {
+    return res.status(200).send(response);
+  });
+});
+
+router.post("/getHistory", verifyToken, async (req, res, next) => {
+  const exHistory = await History.findOne({
+    id: req.body.historyId,
+    userId: req.user.id,
+  });
+  const exStore = await Store.findOne({
+    where: { id: exHistory.storeId },
+  });
+  console.log(exHistory.menuIds.split(","));
+
+  menuIds = exHistory.menuIds.split(",");
+
+  async function getMenus(menuIds) {
+    try {
+      let datas = [];
+      for (const menuId of menuIds) {
+        const test = await Menu.findOne({
+          where: { id: parseInt(menuId, 10), storeId: exStore.id },
+        });
+        datas.push(test);
+      }
+      return datas;
+    } catch (error) {
+      return error;
+    }
+  }
+  getMenus(menuIds).then((data) => {
+    return res.status(200).send({
+      store: exStore,
+      totalPrice: exHistory.totalPrice,
+      menuData: data,
+    });
+  });
+});
 module.exports = router;

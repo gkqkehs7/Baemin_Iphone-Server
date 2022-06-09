@@ -8,13 +8,16 @@ module.exports = class History extends Model {
         userId: {
           type: DataTypes.INTEGER,
           allowNull: false,
-          unique: true,
         },
         storeId: {
           type: DataTypes.INTEGER,
           allowNull: false,
         },
-        menuId: {
+        menuIds: {
+          type: DataTypes.TEXT,
+          allowNull: false,
+        },
+        totalPrice: {
           type: DataTypes.INTEGER,
           allowNull: false,
         },
