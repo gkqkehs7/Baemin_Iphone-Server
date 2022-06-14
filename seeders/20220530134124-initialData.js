@@ -1,12 +1,14 @@
 "use strict";
+const bcrypt = require("bcrypt");
 
 module.exports = {
   async up(queryInterface, Sequelize) {
+    const hashedPassword = await bcrypt.hash("1234", 12);
     await queryInterface.bulkInsert("Users", [
       {
         id: 1,
         email: "gkqkehs10@naver.com",
-        password: "1234",
+        password: hashedPassword,
         nickname: "minu",
         createdAt: new Date(),
         updatedAt: new Date(),
@@ -17,7 +19,7 @@ module.exports = {
       {
         id: 2,
         email: "gkqkehs11@naver.com",
-        password: "1234",
+        password: hashedPassword,
         nickname: "minu2",
         createdAt: new Date(),
         updatedAt: new Date(),
@@ -57,7 +59,6 @@ module.exports = {
         StoreId: 1,
         content: "리뷰 예시입니다",
         star: 4,
-        foodImg: "reviewFoodImg1.png",
         createdAt: new Date(),
         updatedAt: new Date(),
       },
@@ -70,7 +71,6 @@ module.exports = {
         StoreId: 1,
         content: "리뷰 예시입니다",
         star: 5,
-        foodImg: "reviewFoodImg2.png",
         createdAt: new Date(),
         updatedAt: new Date(),
       },

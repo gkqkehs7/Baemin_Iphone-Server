@@ -4,6 +4,7 @@ const menu = require("./menu");
 const store = require("./store");
 const review = require("./review");
 const history = require("./history");
+const reviewImage = require("./reviewImage");
 
 const env = process.env.NODE_ENV || "development";
 const config = require("../config/config.json")[env];
@@ -14,6 +15,7 @@ db.Store = store;
 db.Menu = menu;
 db.Review = review;
 db.History = history;
+db.ReviewImage = reviewImage;
 
 const sequelize = new Sequelize(
   config.database,

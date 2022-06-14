@@ -13,9 +13,6 @@ module.exports = class Review extends Model {
           type: DataTypes.INTEGER,
           allowNull: false,
         },
-        foodImg: {
-          type: DataTypes.STRING(200), //글자무제한
-        },
       },
       {
         modelName: "Review",
@@ -30,5 +27,6 @@ module.exports = class Review extends Model {
   static associate(db) {
     db.Review.belongsTo(db.User);
     db.Review.belongsTo(db.Store);
+    db.Review.hasMany(db.ReviewImage);
   }
 };

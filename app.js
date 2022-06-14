@@ -4,6 +4,7 @@ const port = 3000;
 const bodyParser = require("body-parser");
 const passport = require("passport");
 const passportConfig = require("./passport/local");
+const dotenv = require("dotenv");
 
 const userRouter = require("./router/user");
 const menuRouter = require("./router/menu");
@@ -13,6 +14,7 @@ const historyRouter = require("./router/history");
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+dotenv.config();
 
 const db = require("./models");
 db.sequelize

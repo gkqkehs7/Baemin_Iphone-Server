@@ -195,12 +195,17 @@ router.post("/getHistories", verifyToken, async (req, res, next) => {
         repMenu = await Menu.findOne({ id: exHistory.menuIds.split(",")[0] });
         menuIds = exHistory.menuIds;
         datas.push({
+          historyId: exHistory.id,
+          storeId: storeData.id,
           storeName: storeData.storeName,
+          storeImg: storeData.storeImg,
           repMenuName: repMenu.menuName,
           menuIds: menuIds,
+          totalPrice: exHistory.totalPrice,
           time: exHistory.createdAt,
         });
       }
+
       return datas;
     } catch (error) {
       console.error(error);
@@ -208,6 +213,7 @@ router.post("/getHistories", verifyToken, async (req, res, next) => {
   }
 
   getHistories().then((response) => {
+    console.log("here");
     return res.status(200).send(response);
   });
 });
